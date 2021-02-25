@@ -65,3 +65,24 @@ macro_rules! println {
         $crate::console::print(format_args!(concat!($fmt, "\n") $(, $($arg)+)?));
     }
 }
+
+#[macro_export]
+macro_rules! with_color {
+    ($args:expr, $color: expr) => {
+        format_args!("\u{1B}[{}m{}\u{1B}[0m", $color as u8, $args)
+    };
+}
+
+pub fn colored_print(args: fmt::Arguments, color: u8) {
+    Stdout.write_fmt(with_color!(args, color)).unwrap();
+}
+
+#[macro_export]
+macro_rules! colored_print {
+    ($color:expr, $($arg:tt)*) => { $crate::console::colored_print(format_args!($($arg)*), $color); }
+}
+
+#[macro_export]
+macro_rules! colored_println {
+    ($color:expr, $fmt:expr $(,$($arg:tt)*)?) => { colored_print!($color, concat!($fmt, "\n") $(, $($arg)*)?) }
+}
