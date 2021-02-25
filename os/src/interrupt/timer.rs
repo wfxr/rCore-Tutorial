@@ -38,7 +38,7 @@ pub fn tick() {
     unsafe {
         TICKS += 1;
         if TICKS % 100 == 0 {
-            println!("{} tick", TICKS);
+            debug!("{} tick", TICKS);
         }
     }
 }

@@ -22,8 +22,13 @@
 #![feature(panic_info_message)]
 
 #[macro_use]
+extern crate log;
+
+#[macro_use]
 mod console;
 mod interrupt;
+
+mod logging;
 mod panic;
 mod sbi;
 
@@ -35,11 +40,12 @@ global_asm!(include_str!("entry.asm"));
 /// 在 `_start` 为我们进行了一系列准备之后，这是第一个被调用的 Rust 函数
 #[no_mangle]
 pub extern "C" fn rust_main() {
+    logging::init();
     interrupt::init();
 
-    println!("Hello, rCore-Tutorial!");
+    info!("Hello, rCore-Tutorial!");
 
     unsafe { llvm_asm!("ebreak") };
 
-    panic!("end of rust_main");
+    loop {}
 }

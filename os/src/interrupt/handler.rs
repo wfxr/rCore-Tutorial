@@ -45,7 +45,7 @@ pub fn handle_interrupt(context: &mut Context, scause: Scause, stval: usize) {
 ///
 /// 继续执行，其中 `sepc` 增加 2 字节，以跳过当前这条 `ebreak` 指令
 fn breakpoint(context: &mut Context) {
-    println!("Breakpoint at 0x{:x}", context.sepc);
+    debug!("Breakpoint at 0x{:x}", context.sepc);
     context.sepc += 2;
 }
 
